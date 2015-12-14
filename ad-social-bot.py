@@ -40,25 +40,29 @@ while True:
     sleep(3)
     perform_buttons = driver.find_elements_by_css_selector('.action-bar > .openTask.btn')
     main_window = driver.current_window_handle
-    for button in perform_buttons:
-        button.click()
-        sleep(3)
-        window_handles = list(driver.window_handles)
-        window_handles.remove(main_window)
-        if not window_handles:
-            continue
-        driver.switch_to.window(window_handles[0])
+    if perform_buttons:
+        for button in perform_buttons:
+            button.click()
+            sleep(3)
+            window_handles = list(driver.window_handles)
+            window_handles.remove(main_window)
+            if not window_handles:
+                continue
+            driver.switch_to.window(window_handles[0])
 
-        action_buttons = driver.find_elements_by_css_selector('.fw_like_link.fl_l') or\
-                        driver.find_elements_by_id('pv_like_wrap')
-        if action_buttons:
-            action_buttons[0].click()
-            sleep(random.randrange(5, 7, 1))
-        sleep(2)
-        driver.close()
-        sleep(1)
-        driver.switch_to.window(main_window)
-        print(driver.find_element_by_css_selector('a[href="/profile/balance"] > span').text)
+            action_buttons = driver.find_elements_by_css_selector('.fw_like_link.fl_l') or\
+                            driver.find_elements_by_id('pv_like_wrap')
+            if action_buttons:
+                action_buttons[0].click()
+                sleep(random.randrange(5, 7, 1))
+            sleep(2)
+            driver.close()
+            sleep(1)
+            driver.switch_to.window(main_window)
+            print(driver.find_element_by_css_selector('a[href="/profile/balance"] > span').text)
+    else:
+        print('No tasks. Sleep 2 minute zzzzzzzz')
+        sleep(120)
 
 #exit_button = driver.find_elements_by_css_selector('a[href="http://ad-social.org/dashboard/logout"]')[0]
 #exit_button.click()

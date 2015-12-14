@@ -1,0 +1,31 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="18">
+            <item index="0" class="java.lang.String" itemvalue="django-redis-cache" />
+            <item index="1" class="java.lang.String" itemvalue="dnspython" />
+            <item index="2" class="java.lang.String" itemvalue="reportlab" />
+            <item index="3" class="java.lang.String" itemvalue="pymorphy" />
+            <item index="4" class="java.lang.String" itemvalue="django-coverage" />
+            <item index="5" class="java.lang.String" itemvalue="pyenchant" />
+            <item index="6" class="java.lang.String" itemvalue="git" />
+            <item index="7" class="java.lang.String" itemvalue="pytils" />
+            <item index="8" class="java.lang.String" itemvalue="PyStemmer" />
+            <item index="9" class="java.lang.String" itemvalue="Django" />
+            <item index="10" class="java.lang.String" itemvalue="sudo" />
+            <item index="11" class="java.lang.String" itemvalue="django-admin-tools" />
+            <item index="12" class="java.lang.String" itemvalue="django-sphinx" />
+            <item index="13" class="java.lang.String" itemvalue="hotqueue" />
+            <item index="14" class="java.lang.String" itemvalue="django-celery" />
+            <item index="15" class="java.lang.String" itemvalue="pisa" />
+            <item index="16" class="java.lang.String" itemvalue="django-nose" />
+            <item index="17" class="java.lang.String" itemvalue="psycopg2" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
