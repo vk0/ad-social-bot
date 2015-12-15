@@ -25,6 +25,7 @@ class VK:
 
 class AdSocial:
     delay_after_login_s = 2
+    delay_before_login_s = 2
 
     def __init__(self, driver):
         self.__driver = driver
@@ -33,7 +34,8 @@ class AdSocial:
     def login(self):
         print('Ad social login...')
         self.__driver.get('http://ad-social.org/')
+        sleep(AdSocial.delay_before_login_s)
         use_vk_to_login_button = self.__driver.find_element_by_css_selector(self.__use_vk_to_login_button_selector)
         use_vk_to_login_button.click()
-        sleep(VK.delay_after_login_s)
+        sleep(AdSocial.delay_after_login_s)
         print('Success!')
