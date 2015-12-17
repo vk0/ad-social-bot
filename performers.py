@@ -13,6 +13,8 @@ class TaskPagePerformer:
     before_rollback_delay_max_s = 5
     perform_interval_s = 1
     after_perform_rollback_delay_s = 1
+    after_captcha_entered_delay_s = .5
+    after_captcha_sended_delay_s = .5
 
     def __init__(self, driver):
         self._driver = driver
@@ -31,9 +33,7 @@ class TaskPagePerformer:
             if task_performed:
                 sleep(TaskPagePerformer.after_perform_rollback_delay_s)
                 if self.__is_captcha_required():
-                    print('Captcha detected')
-                    self.__captcha_solver.solve('', self._driver)
-                    print('Captcha solved')
+                    self.__solve_captcha()
                 self._driver.close()
                 self._driver.switch_to.window(self.__main_window)
                 sleep(randrange(TaskPagePerformer.before_rollback_delay_min_s,
@@ -42,6 +42,8 @@ class TaskPagePerformer:
                 task_window = open_new_window(self._driver, task_url)
                 self._driver.switch_to.window(task_window)
                 self._rollback()
+                if self.__is_captcha_required():
+                    self.__solve_captcha()
                 sleep(TaskPagePerformer.after_perform_rollback_delay_s)
             self._driver.close()
             self._driver.switch_to.window(self.__main_window)
@@ -50,6 +52,28 @@ class TaskPagePerformer:
 
     def __is_captcha_required(self):
         return len(self._driver.find_elements_by_class_name('captcha')) > 0
+
+    def __solve_captcha(self):
+        print('Captcha detected')
+        captcha_imgs = self._driver.find_elements_by_css_selector('.captcha img')
+        if not captcha_imgs:
+            return
+        captcha_url = captcha_imgs[0].get_attribute('src')
+        success, solved_captcha = self.__captcha_solver.solve(captcha_url)
+
+        captcha_inputs = self._driver.find_elements_by_css_selector('.captcha .big_text')
+        if not captcha_inputs:
+            return
+        captcha_input = captcha_inputs[0]
+        captcha_input.send_keys(solved_captcha)
+        sleep(TaskPagePerformer.after_captcha_entered_delay_s)
+
+        send_answer_buttons = self._driver.find_elements_by_css_selector('.box_controls_wrap .flat_button')
+        if not send_answer_buttons:
+            return
+        send_answer_buttons[0].click()
+        sleep(TaskPagePerformer.after_captcha_sended_delay_s)
+        print('Captcha solved')
 
     def __get_scores(self):
         return self._driver.find_element_by_css_selector('a[href="/profile/balance"] > span').text
@@ -121,3 +145,20 @@ class CommunitiesPerformer(TaskPagePerformer):
         sleep(CommunitiesPerformer.delay_after_public_actions_click_s)
         leave_buttons[0].click()
         return True
+
+
+class CommentsPerformer(TaskPagePerformer):
+    def _perform_task(self):
+        comment_textareas = self._driver.find_elements_by_id('pv_comment') or\
+            self._driver.find_elements_by_id('fwr_text')
+        send_comment_buttons = self._driver.find_elements_by_id('pv_comment_send') or\
+            self._driver.find_elements_by_id('fwr_send')
+        if comment_textareas and send_comment_buttons:
+            comment_textareas[0].click()
+            comment_textareas[0].send_keys(u'Класс!')
+            send_comment_buttons[0].click()
+            return True
+        return False
+
+    def _rollback(self):
+        pass

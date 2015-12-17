@@ -25,7 +25,7 @@ from login import *
 
 driver, url_performer_map = init()
 
-VK('89134113493', 'chan5-rusw$j#huS4e4a', driver).login()
+VK('89134113493', 'th7!re8raS*e', driver).login()
 AdSocial(driver).login()
 
 while True:
