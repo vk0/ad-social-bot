@@ -4,8 +4,8 @@ from pyvirtualdisplay import Display
 
 
 def init():
-    #display = Display(visible=1, size=(1200, 1000))
-    #display.start()
+    display = Display(visible=1, size=(1200, 1000))
+    display.start()
 
     driver = webdriver.Firefox()
     url_performer_map = {

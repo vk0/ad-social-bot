@@ -154,9 +154,12 @@ class CommentsPerformer(TaskPagePerformer):
         send_comment_buttons = self._driver.find_elements_by_id('pv_comment_send') or\
             self._driver.find_elements_by_id('fwr_send')
         if comment_textareas and send_comment_buttons:
-            comment_textareas[0].click()
-            comment_textareas[0].send_keys(u'Класс!')
-            send_comment_buttons[0].click()
+            try:
+                comment_textareas[0].click()
+                comment_textareas[0].send_keys(u'Класс!')
+                send_comment_buttons[0].click()
+            except:
+                return False
             return True
         return False
 
